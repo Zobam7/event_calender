@@ -2,38 +2,44 @@ import React, { useContext, useState } from "react";
 import GlobalContext from "../context/GlobalContext";
 
 const EventsModel = () => {
-  const labelClasses = ["indigo", "gray", "green", "blue", "red", "purple"];
-
+  
   const { setShowEventModal, daySelected, dispatchCalEvents, selectedEvent } =
-    useContext(GlobalContext);
-
+  useContext(GlobalContext);
+  
   const [title, setTitle] = useState(selectedEvent ? selectedEvent.title : "");
+  const red = "rgb(254 202 202)"
+  const gray = "rgb(229 231 235)"
+  const indigo = "rgb(199 210 254)"
+  const blue = "rgb(191 219 254)"
+  const green = "rgb(187 247 208)"
+  const purple = "rgb(233 213 255)"
+  const labelClasses = [indigo, gray, blue, red, green, purple];
   const [description, setDescription] = useState(
     selectedEvent ? selectedEvent.description : ""
-  );
-  const [selectedLabel, setSelectedLabel] = useState(
-    selectedEvent
+    );
+    const [selectedLabel, setSelectedLabel] = useState(
+      selectedEvent
       ? labelClasses.find((lbl) => lbl === selectedEvent.label)
       : labelClasses[0]
-  );
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const calenderEvent = {
-      title,
-      description,
-      label: selectedLabel,
-      day: daySelected.valueOf(),
-      id: selectedEvent ? selectedEvent.id : Date.now(),
-    };
-
-    if (selectedEvent) {
-      dispatchCalEvents({ type: "update", payload: calenderEvent });
-    } else {
-      dispatchCalEvents({ type: "push", payload: calenderEvent });
-    }
-    
-    setShowEventModal(false);
+      );
+      
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        const calenderEvent = {
+          title,
+          description,
+          label: selectedLabel,
+        day: daySelected.valueOf(),
+        id: selectedEvent ? selectedEvent.id : Date.now(),
+      };
+      
+      if (selectedEvent) {
+        dispatchCalEvents({ type: "update", payload: calenderEvent });
+      } else {
+        dispatchCalEvents({ type: "push", payload: calenderEvent });
+      }
+      
+      setShowEventModal(false);
   };
   return (
     <div className="h-screen w-full fixed left-0 top-0 flex justify-center items-center">
@@ -97,7 +103,8 @@ const EventsModel = () => {
                 <span
                   key={i}
                   onClick={() => setSelectedLabel(label)}
-                  className={`bg-${label}-500 w-6 h-6 rounded-full flex items-center justify-center cursor-pointer`}
+                  className="w-6 h-6 rounded-full flex items-center justify-center cursor-pointer"
+                  style={{ backgroundColor: `${label}` }}
                 >
                   {selectedLabel === label && (
                     <span className="material-icons-outlined text-white text-sm">
